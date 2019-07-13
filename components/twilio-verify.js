@@ -24,12 +24,15 @@ module.exports = async function verification(number) {
 			verificationResult = await twilio.verify.services(VERIFICATION_SID)
 			.verificationChecks
 			.create({ code: number, to: phone_number[0] });
+            if (!verificationResult.valid) {
+                return 'You did not enter the correct code. Try again!'
+            }
             phone_number = [];
             return 'Your phone has been verified. Thank you.'
 		} catch (e) {
             console.log("error : ", e);
             return 'You did not enter the correct code. Try again!'
-		}
+        }
     }
     return verificationResult;
 }
